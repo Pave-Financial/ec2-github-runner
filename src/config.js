@@ -15,6 +15,7 @@ class Config {
       iamRoleName: core.getInput('iam-role-name'),
       runnerHomeDir: core.getInput('runner-home-dir'),
       preRunnerScript: core.getInput('pre-runner-script'),
+      ec2MetadataHTTPTokens: core.getInput('ec2-metadata-http-tokens'),
     };
 
     const tags = JSON.parse(core.getInput('aws-resource-tags'));
@@ -53,6 +54,10 @@ class Config {
       }
     } else {
       throw new Error('Wrong mode. Allowed values: start, stop.');
+    }
+
+    if (['optional', 'required'].indexOf(this.input.ec2MetadataHTTPTokens) === -1) {
+      throw new Error(`Invalid value '${this.input.ec2MetadataHTTPTokens}' for input 'ec2-metadata-http-tokens'. Allowed values: optional, required.`)
     }
   }
 
